@@ -4,36 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ejercicio2
+
+public class HelperDeJson
 {
-    public class HelperDeJson
+
+    public string AbrirArchivoTexto(string nombreArchivo)
     {
-
-        public string AbrirArchivoTexto(string nombreArchivo)
+        string documento;
+        using (var archivoOpen = new FileStream(nombreArchivo, FileMode.Open))
         {
-            string documento;
-            using (var archivoOpen = new FileStream(nombreArchivo, FileMode.Open))
+            using (var strReader = new StreamReader(archivoOpen))
             {
-                using (var strReader = new StreamReader(archivoOpen))
-                {
-                    documento = strReader.ReadToEnd();
-                    archivoOpen.Close();
-                }
+                documento = strReader.ReadToEnd();
+                archivoOpen.Close();
             }
-
-
-            return documento;
         }
 
-        public void GuardarArchivoTexto(string nombreArchivo, string datos)
+
+        return documento;
+    }
+
+    public void GuardarArchivoTexto(string nombreArchivo, string datos)
+    {
+        using (var archivo = new FileStream(nombreArchivo, FileMode.Create))
         {
-            using (var archivo = new FileStream(nombreArchivo, FileMode.Create))
+            using (var strWriter = new StreamWriter(archivo))
             {
-                using (var strWriter = new StreamWriter(archivo))
-                {
-                    strWriter.WriteLine("{0}", datos);
-                    strWriter.Close();
-                }
+                strWriter.WriteLine("{0}", datos);
+                strWriter.Close();
             }
         }
     }
